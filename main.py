@@ -6,6 +6,34 @@ pygame.init()
 
 screen_size = (1400, 800)
 game_display = pygame.display.set_mode(screen_size)
+level_size = [480, 480]
+
+
+def check_for_ui_click(ui, level_canvas, mouse_pos):
+  button_click = ui.check_for_button_click(mouse_pos)
+
+  if button_click != '':
+    if button_click == 0:
+      level_size[0] += 80
+    elif button_click == 1:
+      if level_size[0] != 0:
+        level_size[0] -= 80
+    elif button_click == 2:
+      level_size[1] += 80
+    elif button_click == 3:
+      if level_size[1] != 0:
+        level_size[1] -= 80
+
+    level_canvas.set_level_size(level_size[0], level_size[1])
+    ui.set_level_size_text(level_size[0], level_size[1])
+
+    if button_click == 0 or button_click == 2:
+      level_canvas.init_level_cells()
+    elif button_click == 1:
+      level_canvas.shrink_level_x()
+    elif button_click == 3:
+      level_canvas.shrink_level_y()  
+        
 
 
 def draw(level_canvas, ui):
@@ -17,7 +45,12 @@ def draw(level_canvas, ui):
 
 def main():
   level_canvas = LevelCanvas(screen_size)
+  level_canvas.set_level_size(level_size[0], level_size[1])
+  level_canvas.init_level_cells()
+
   ui = UI(screen_size)
+  ui.set_level_size_text(level_size[0], level_size[1])
+  ui.init_level_size_buttons()
 
   quit_editor = False
   key_down = False
@@ -30,18 +63,17 @@ def main():
       if event.type == pygame.MOUSEBUTTONUP:
         if event.button == 1:
           level_canvas.handle_left_click(pygame.mouse.get_pos())
+          check_for_ui_click(ui, level_canvas, pygame.mouse.get_pos())
+
         elif event.button == 3:
           level_canvas.handle_right_click(pygame.mouse.get_pos())
           
       if event.type == pygame.KEYDOWN:
         level_canvas.handle_key_down(event.key)
-        key_down = True
       elif event.type == pygame.KEYUP:
-        level_canvas.reset_scroll_directions()
-        key_down = False
-    
-    if key_down:
-      level_canvas.handle_canvas_scroll()  
+        level_canvas.reset_scroll_directions()    
+   
+    level_canvas.handle_canvas_scroll()  
 
     draw(level_canvas, ui)
 

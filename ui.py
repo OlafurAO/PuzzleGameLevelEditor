@@ -16,13 +16,44 @@ class UI:
       )
     )
 
-    game_display.blit(self.screenSizeText, (x + 30, 0))
-    game_display.blit(self.xText, (x + 10, 30))
-    game_display.blit(self.yText, (x + 10, 70))
+    game_display.blit(self.level_size_text, (x + 30, 0))
+
+    game_display.blit(self.x_text, (x + 10, 30))
+    game_display.blit(self.x_val_text, (x + 50, 30))
+    game_display.blit(self.plus_icon, (self.level_size_buttons[0][0], self.level_size_buttons[0][1]))
+    game_display.blit(self.minus_icon, (self.level_size_buttons[1][0], self.level_size_buttons[1][1]))
+
+    game_display.blit(self.y_text, (x + 10, 70))
+    game_display.blit(self.y_val_text, (x + 50, 70))
+    game_display.blit(self.plus_icon, (self.level_size_buttons[2][0], self.level_size_buttons[2][1]))
+    game_display.blit(self.minus_icon, (self.level_size_buttons[3][0], self.level_size_buttons[3][1]))
 
   def init_text(self):
     self.font = pygame.font.Font('fonts/pixeled.ttf', 16)
 
-    self.screenSizeText = self.font.render('Level size', False, (255, 255, 255))
-    self.xText = self.font.render('X: ', False, (255, 255, 255))
-    self.yText = self.font.render('Y: ', False, (255, 255, 255))
+    self.level_size_text = self.font.render('Level size', False, (255, 255, 255))
+    self.x_text = self.font.render('X: ', False, (255, 255, 255))
+    self.y_text = self.font.render('Y: ', False, (255, 255, 255))
+
+  def init_level_size_buttons(self):
+    self.level_size_buttons = [
+      (self.screen_size[0] - 20, 30),
+      (self.screen_size[0] - 40, 32),
+      (self.screen_size[0] - 20, 70),
+      (self.screen_size[0] - 40, 72),
+    ] 
+
+    self.plus_icon = self.font.render('+', False, (255, 255, 255)) 
+    self.minus_icon = self.font.render('-', False, (255, 255, 255)) 
+
+  def check_for_button_click(self, mouse_pos):
+    for i in range(len(self.level_size_buttons)):
+      if self.level_size_buttons[i][0] <= mouse_pos[0] <= self.level_size_buttons[i][0] + 40:
+        if self.level_size_buttons[i][1] <= mouse_pos[1] <= self.level_size_buttons[i][1] + 40:
+          return i
+
+    return ''    
+
+  def set_level_size_text(self, size_x, size_y):
+    self.x_val_text = self.font.render(str(size_x), False, (255, 255, 255))
+    self.y_val_text = self.font.render(str(size_y), False, (255, 255, 255))

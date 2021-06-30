@@ -8,7 +8,6 @@ class LevelCanvas:
     self.xml_exporter = XmlExporter()
     self.screen_size = screen_size
 
-    self.size_x, self.size_y = 480, 480
     self.max_moves = 5
     self.cell_size = 80
     self.level_cells = []
@@ -16,13 +15,20 @@ class LevelCanvas:
 
     self.scroll_x_direction = 0
     self.scroll_y_direction = 0
+    self.x_scroll_offset = 0
+    self.y_scroll_offset = 0
     self.scroll_speed = 0.5
 
     self.selected_cell_type = 'block'
     self.player_placed = False
     self.goal_placed = False
 
-    self.init_level_cells()
+    self.highest_x_pos = 0
+    self.highest_y_pos = 0
+
+  def set_level_size(self, size_x, size_y):
+     self.size_x = size_x
+     self.size_y = size_y
 
   def draw_level(self, game_display):
     for cell, cell_pos in zip(self.level_cells, self.level_cell_locations):
@@ -46,10 +52,45 @@ class LevelCanvas:
       print('error')
 
   def init_level_cells(self):
+    existing_coordinates = self.get_existing_coordinates()
+    print(len(self.level_cells))
+    
     for y in range(0, self.size_y, self.cell_size):
       for x in range(0, self.size_x, self.cell_size):
-        self.level_cells.append(LevelCell(x, y, 'empty'))
-        self.level_cell_locations.append((x, y))
+        if (x, y) not in existing_coordinates:
+          self.level_cells.append(LevelCell(x, y, 'empty'))
+          self.level_cell_locations.append((x + self.x_scroll_offset, y + self.y_scroll_offset))
+
+        if x > self.highest_x_pos:
+          self.highest_x_pos = x
+      if y > self.highest_y_pos:
+        self.highest_y_pos = y    
+
+  def shrink_level_x(self):
+    tmp_list_cells = []
+    tmp_list_locations = []
+
+    for cell, location in zip(self.level_cells, self.level_cell_locations):
+      if cell.get_coordinates()[0] != self.highest_x_pos:
+        tmp_list_cells.append(cell)
+        tmp_list_locations.append(location)
+
+    self.level_cells = tmp_list_cells
+    self.level_cell_locations = tmp_list_locations
+    self.highest_x_pos -= 80
+
+  def shrink_level_y(self):
+    tmp_list_cells = []
+    tmp_list_locations = []
+
+    for cell, location in zip(self.level_cells, self.level_cell_locations):
+      if cell.get_coordinates()[1] != self.highest_y_pos:
+        tmp_list_cells.append(cell)
+        tmp_list_locations.append(location)
+
+    self.level_cells = tmp_list_cells
+    self.level_cell_locations = tmp_list_locations
+    self.highest_y_pos -= 80
 
   def handle_key_down(self, key):
     if key == pygame.K_p:
@@ -59,13 +100,13 @@ class LevelCanvas:
     elif key == pygame.K_b:
       self.selected_cell_type = 'block'
 
-    elif key == pygame.K_LEFT:
+    if key == pygame.K_LEFT or key == pygame.K_a:
       self.scroll_x_direction = 1
-    elif key == pygame.K_RIGHT:
+    elif key == pygame.K_RIGHT or key == pygame.K_d:
       self.scroll_x_direction = -1
-    elif key == pygame.K_UP:
+    if key == pygame.K_UP or key == pygame.K_w:
       self.scroll_y_direction = 1
-    elif key == pygame.K_DOWN:
+    elif key == pygame.K_DOWN or key == pygame.K_s:
       self.scroll_y_direction = -1 
 
     elif key == pygame.K_SPACE:
@@ -105,19 +146,21 @@ class LevelCanvas:
 
   def reset_scroll_directions(self):
     self.scroll_x_direction = 0
-    self.scroll_y_direction = 0    
+    self.scroll_y_direction = 0
 
   def scroll_canvas_x(self, direction):
     for i in range(len(self.level_cell_locations)):
       new_x = self.level_cell_locations[i][0] + (direction * self.scroll_speed)
       curr_y = self.level_cell_locations[i][1]
       self.level_cell_locations[i] = (new_x, curr_y)      
+    self.x_scroll_offset += (direction * self.scroll_speed)
 
   def scroll_canvas_y(self, direction):
     for i in range(len(self.level_cell_locations)):
       new_y = self.level_cell_locations[i][1] + (direction * self.scroll_speed)
       curr_x = self.level_cell_locations[i][0]
       self.level_cell_locations[i] = (curr_x, new_y)
+    self.y_scroll_offset += (direction * self.scroll_speed)
 
   def clear_canvas(self,):
     self.level_cells = []
@@ -132,6 +175,13 @@ class LevelCanvas:
 
     return -1
 
+  def get_existing_coordinates(self):
+    coordinates = []  
+    for cell in self.level_cells:
+      coordinates.append(cell.get_coordinates())
+
+    return coordinates  
+
   @staticmethod
   def get_cell_color(cell_type):
     if cell_type == 'goal':
@@ -142,5 +192,3 @@ class LevelCanvas:
       return 255, 255, 255
 
     return None
-
-
