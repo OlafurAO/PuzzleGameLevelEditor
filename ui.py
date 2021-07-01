@@ -2,13 +2,14 @@ import pygame
 import os
 
 class UI:
-  def __init__(self, screen_size) -> None:
+  def __init__(self, screen_size, cell_type_display_info) -> None:
     pygame.font.init()
     self.init_text()
     self.screen_size = screen_size
+    self.cell_type_display_info = cell_type_display_info
     self.width = 200
 
-  def draw_ui(self, game_display):
+  def draw_ui(self, game_display, selected_cell_type):
     x = self.screen_size[0] - self.width
     pygame.draw.rect(
       game_display, (27, 24, 33), pygame.Rect(
@@ -28,6 +29,30 @@ class UI:
     game_display.blit(self.plus_icon, (self.level_size_buttons[2][0], self.level_size_buttons[2][1]))
     game_display.blit(self.minus_icon, (self.level_size_buttons[3][0], self.level_size_buttons[3][1]))
 
+    for cell_type in self.cell_type_display_info:
+      if cell_type == selected_cell_type:
+        pygame.draw.rect(
+          game_display, (255, 255, 255), pygame.Rect(
+            self.cell_type_display_info[cell_type]['x_pos'] - 30,
+            self.cell_type_display_info[cell_type]['y_pos'] + 7,
+            10, 10
+          )
+        )
+  
+      pygame.draw.rect(
+        game_display, self.cell_type_display_info[cell_type]['color'], pygame.Rect(
+          self.cell_type_display_info[cell_type]['x_pos'],
+          self.cell_type_display_info[cell_type]['y_pos'],    
+          25, 25
+        ) 
+      )
+
+      game_display.blit(
+        self.cell_type_texts[cell_type], 
+        (self.cell_type_display_info[cell_type]['x_pos'] + 35, 
+        self.cell_type_display_info[cell_type]['y_pos'] - 14)
+      )
+      
   def init_text(self):
     self.font = pygame.font.Font('fonts/pixeled.ttf', 16)
 
@@ -57,3 +82,10 @@ class UI:
   def set_level_size_text(self, size_x, size_y):
     self.x_val_text = self.font.render(str(size_x), False, (255, 255, 255))
     self.y_val_text = self.font.render(str(size_y), False, (255, 255, 255))
+
+  def set_cell_type_texts(self):
+    self.cell_type_texts = {
+      'block': self.font.render('(B)lock', False, (255, 255, 255)),
+      'player': self.font.render('(P)layer', False, (255, 255, 255)),
+      'goal': self.font.render('(G)oal', False, (255, 255, 255))
+    } 

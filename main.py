@@ -39,7 +39,9 @@ def check_for_ui_click(ui, level_canvas, mouse_pos):
 def draw(level_canvas, ui):
   game_display.fill((0, 0, 0))
   level_canvas.draw_level(game_display)
-  ui.draw_ui(game_display)
+
+  selected_cell_type = level_canvas.get_selected_cell_type()
+  ui.draw_ui(game_display, selected_cell_type)
   pygame.display.update()
 
 
@@ -48,8 +50,9 @@ def main():
   level_canvas.set_level_size(level_size[0], level_size[1])
   level_canvas.init_level_cells()
 
-  ui = UI(screen_size)
+  ui = UI(screen_size, level_canvas.init_cell_type_display())
   ui.set_level_size_text(level_size[0], level_size[1])
+  ui.set_cell_type_texts()
   ui.init_level_size_buttons()
 
   quit_editor = False

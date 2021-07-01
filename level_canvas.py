@@ -53,7 +53,6 @@ class LevelCanvas:
 
   def init_level_cells(self):
     existing_coordinates = self.get_existing_coordinates()
-    print(len(self.level_cells))
     
     for y in range(0, self.size_y, self.cell_size):
       for x in range(0, self.size_x, self.cell_size):
@@ -65,6 +64,27 @@ class LevelCanvas:
           self.highest_x_pos = x
       if y > self.highest_y_pos:
         self.highest_y_pos = y    
+
+  def init_cell_type_display(self):
+    cell_type_display = {
+      'block': {
+        'color': self.get_cell_color('block'),
+        'x_pos': self.screen_size[0] - 150,
+        'y_pos': 200
+      },
+      'player': {
+        'color': self.get_cell_color('player'),
+        'x_pos': self.screen_size[0] - 150,
+        'y_pos': 230
+      },
+      'goal': {
+        'color': self.get_cell_color('goal'),
+        'x_pos': self.screen_size[0] - 150,
+        'y_pos': 260
+      }
+    }
+
+    return cell_type_display
 
   def shrink_level_x(self):
     tmp_list_cells = []
@@ -181,6 +201,12 @@ class LevelCanvas:
       coordinates.append(cell.get_coordinates())
 
     return coordinates  
+
+  def get_cell_type_display_info(self):
+    return self.cell_type_display  
+
+  def get_selected_cell_type(self):
+    return self.selected_cell_type
 
   @staticmethod
   def get_cell_color(cell_type):
