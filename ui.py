@@ -9,7 +9,7 @@ class UI:
     self.cell_type_display_info = cell_type_display_info
     self.width = 200
 
-  def draw_ui(self, game_display, selected_cell_type):
+  def draw_ui(self, game_display, selected_cell_type, max_moves):
     x = self.screen_size[0] - self.width
     pygame.draw.rect(
       game_display, (27, 24, 33), pygame.Rect(
@@ -21,13 +21,18 @@ class UI:
 
     game_display.blit(self.x_text, (x + 10, 30))
     game_display.blit(self.x_val_text, (x + 50, 30))
-    game_display.blit(self.plus_icon, (self.level_size_buttons[0][0], self.level_size_buttons[0][1]))
-    game_display.blit(self.minus_icon, (self.level_size_buttons[1][0], self.level_size_buttons[1][1]))
+    game_display.blit(self.plus_icon, (self.buttons[0][0], self.buttons[0][1]))
+    game_display.blit(self.minus_icon, (self.buttons[1][0], self.buttons[1][1]))
 
     game_display.blit(self.y_text, (x + 10, 70))
     game_display.blit(self.y_val_text, (x + 50, 70))
-    game_display.blit(self.plus_icon, (self.level_size_buttons[2][0], self.level_size_buttons[2][1]))
-    game_display.blit(self.minus_icon, (self.level_size_buttons[3][0], self.level_size_buttons[3][1]))
+    game_display.blit(self.plus_icon, (self.buttons[2][0], self.buttons[2][1]))
+    game_display.blit(self.minus_icon, (self.buttons[3][0], self.buttons[3][1]))
+
+    game_display.blit(self.move_text, (x + 10, 110))
+    game_display.blit(self.font.render(str(max_moves), False, (255, 255, 255)), (x + 120, 110))
+    game_display.blit(self.plus_icon, (self.buttons[4][0], self.buttons[4][1]))
+    game_display.blit(self.minus_icon, (self.buttons[5][0], self.buttons[5][1]))
 
     for cell_type in self.cell_type_display_info:
       if cell_type == selected_cell_type:
@@ -59,22 +64,26 @@ class UI:
     self.level_size_text = self.font.render('Level size', False, (255, 255, 255))
     self.x_text = self.font.render('X: ', False, (255, 255, 255))
     self.y_text = self.font.render('Y: ', False, (255, 255, 255))
+    self.move_text = self.font.render('Moves: ', False, (255, 255, 255))
 
-  def init_level_size_buttons(self):
-    self.level_size_buttons = [
+  def init_buttons(self):
+    self.buttons = [
       (self.screen_size[0] - 20, 30),
       (self.screen_size[0] - 40, 32),
       (self.screen_size[0] - 20, 70),
       (self.screen_size[0] - 40, 72),
+
+      (self.screen_size[0] - 20, 110),
+      (self.screen_size[0] - 40, 112),
     ] 
 
     self.plus_icon = self.font.render('+', False, (255, 255, 255)) 
     self.minus_icon = self.font.render('-', False, (255, 255, 255)) 
 
   def check_for_button_click(self, mouse_pos):
-    for i in range(len(self.level_size_buttons)):
-      if self.level_size_buttons[i][0] <= mouse_pos[0] <= self.level_size_buttons[i][0] + 40:
-        if self.level_size_buttons[i][1] <= mouse_pos[1] <= self.level_size_buttons[i][1] + 40:
+    for i in range(len(self.buttons)):
+      if self.buttons[i][0] <= mouse_pos[0] <= self.buttons[i][0] + 40:
+        if self.buttons[i][1] <= mouse_pos[1] <= self.buttons[i][1] + 40:
           return i
 
     return ''    

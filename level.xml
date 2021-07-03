@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<level>
+	<max_moves>12</max_moves>
+	<level_size>
+		<x> 640 </x>
+		<y> 640 </y>
+	</level_size>
+	<goal_pos>
+		<x> 160 </x>
+		<y> 560 </y>
+	</goal_pos>
+	<obstacle_pos>
+		<x> 0 </x>
+		<y> 0 </y>
+	</obstacle_pos>
+	<obstacle_pos>
+		<x> 80 </x>
+		<y> 0 </y>
+	</obstacle_pos>
+	<obstacle_pos>
+		<x> 320 </x>
+		<y> 0 </y>
+	</obstacle_pos>
+	<obstacle_pos>
+		<x> 80 </x>
+		<y> 160 </y>
+	</obstacle_pos>
+	<obstacle_pos>
+		<x> 240 </x>
+		<y> 160 </y>
+	</obstacle_pos>
+	<obstacle_pos>
+		<x> 80 </x>
+		<y> 240 </y>
+	</obstacle_pos>
+	<obstacle_pos>
+		<x> 240 </x>
+		<y> 240 </y>
+	</obstacle_pos>
+	<obstacle_pos>
+		<x> 240 </x>
+		<y> 320 </y>
+	</obstacle_pos>
+	<obstacle_pos>
+		<x> 0 </x>
+		<y> 400 </y>
+	</obstacle_pos>
+	<obstacle_pos>
+		<x> 80 </x>
+		<y> 400 </y>
+	</obstacle_pos>
+	<obstacle_pos>
+		<x> 240 </x>
+		<y> 400 </y>
+	</obstacle_pos>
+	<obstacle_pos>
+		<x> 480 </x>
+		<y> 80 </y>
+	</obstacle_pos>
+	<obstacle_pos>
+		<x> 480 </x>
+		<y> 160 </y>
+	</obstacle_pos>
+	<obstacle_pos>
+		<x> 480 </x>
+		<y> 240 </y>
+	</obstacle_pos>
+	<obstacle_pos>
+		<x> 480 </x>
+		<y> 400 </y>
+	</obstacle_pos>
+	<obstacle_pos>
+		<x> 480 </x>
+		<y> 480 </y>
+	</obstacle_pos>
+	<obstacle_pos>
+		<x> 400 </x>
+		<y> 560 </y>
+	</obstacle_pos>
+	<obstacle_pos>
+		<x> 480 </x>
+		<y> 560 </y>
+	</obstacle_pos>
+	<player_pos>
+		<x> 560 </x>
+		<y> 560 </y>
+	</player_pos>
+
+</level>

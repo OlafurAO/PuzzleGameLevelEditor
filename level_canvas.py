@@ -182,6 +182,11 @@ class LevelCanvas:
       self.level_cell_locations[i] = (curr_x, new_y)
     self.y_scroll_offset += (direction * self.scroll_speed)
 
+  def modify_move_count(self, modifier):
+    self.max_moves += modifier
+    if self.max_moves < 0:
+      self.max_moves = 0
+
   def clear_canvas(self,):
     self.level_cells = []
     self.init_level_cells()
@@ -207,6 +212,9 @@ class LevelCanvas:
 
   def get_selected_cell_type(self):
     return self.selected_cell_type
+
+  def get_max_moves(self):
+    return self.max_moves  
 
   @staticmethod
   def get_cell_color(cell_type):
