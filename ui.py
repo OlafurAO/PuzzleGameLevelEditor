@@ -13,7 +13,7 @@ class UI:
     x = self.screen_size[0] - self.width
     pygame.draw.rect(
       game_display, (27, 24, 33), pygame.Rect(
-        x, 0, self.width, self.screen_size[1]
+        x - 20, 0, self.width + 20, self.screen_size[1]
       )
     )
 
@@ -38,7 +38,7 @@ class UI:
       if cell_type == selected_cell_type:
         pygame.draw.rect(
           game_display, (255, 255, 255), pygame.Rect(
-            self.cell_type_display_info[cell_type]['x_pos'] - 30,
+            self.cell_type_display_info[cell_type]['x_pos'] - 20,
             self.cell_type_display_info[cell_type]['y_pos'] + 7,
             10, 10
           )
@@ -94,7 +94,14 @@ class UI:
 
   def set_cell_type_texts(self):
     self.cell_type_texts = {
-      'block': self.font.render('(B)lock', False, (255, 255, 255)),
-      'player': self.font.render('(P)layer', False, (255, 255, 255)),
-      'goal': self.font.render('(G)oal', False, (255, 255, 255))
+      'block': self.font.render('(1)  Block', False, (255, 255, 255)),
+      'player': self.font.render('(2) Player', False, (255, 255, 255)),
+      'goal': self.font.render('(3) Goal', False, (255, 255, 255)),
+      'fader_in': self.font.render('(4) Fader-i', False, (255, 255, 255)),
+      'fader_out': self.font.render('(5) Fader-o', False, (255, 255, 255)),
+      'bouncer': self.font.render('(6) Bouncer', False, (255, 255, 255)),
+      'lock': self.font.render('(7) Lock', False, (255, 255, 255)),
+      'fader_switch': self.font.render('(8) F-switch', False, (255, 255, 255)),
+      'flipper_r': self.font.render('(9) Flipper-r', False, (255, 255, 255)),
+      'flipper_l': self.font.render('(0) Flipper-l', False, (255, 255, 255)),
     } 

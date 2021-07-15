@@ -48,6 +48,7 @@ class LevelCanvas:
   def export_xml(self):
     try:
       self.xml_exporter.export_xml(self.level_cells, (self.size_x, self.size_y), self.max_moves)
+      print('success')
     except:
       print('error')
 
@@ -69,19 +70,54 @@ class LevelCanvas:
     cell_type_display = {
       'block': {
         'color': self.get_cell_color('block'),
-        'x_pos': self.screen_size[0] - 150,
+        'x_pos': self.screen_size[0] - 190,
         'y_pos': 200
       },
       'player': {
         'color': self.get_cell_color('player'),
-        'x_pos': self.screen_size[0] - 150,
+        'x_pos': self.screen_size[0] - 190,
         'y_pos': 230
       },
       'goal': {
         'color': self.get_cell_color('goal'),
-        'x_pos': self.screen_size[0] - 150,
+        'x_pos': self.screen_size[0] - 190,
         'y_pos': 260
-      }
+      },
+      'fader_in': {
+        'color': self.get_cell_color('fader_in'),
+        'x_pos': self.screen_size[0] - 190,
+        'y_pos': 290
+      },
+      'fader_out': {
+        'color': self.get_cell_color('fader_out'),
+        'x_pos': self.screen_size[0] - 190,
+        'y_pos': 320
+      },
+      'bouncer': {
+        'color': self.get_cell_color('bouncer'),
+        'x_pos': self.screen_size[0] - 190,
+        'y_pos': 350
+      },
+      'lock': {
+        'color': self.get_cell_color('lock'),
+        'x_pos': self.screen_size[0] - 190,
+        'y_pos': 380
+      }, 
+      'fader_switch': {
+        'color': self.get_cell_color('fader_switch'),
+        'x_pos': self.screen_size[0] - 190,
+        'y_pos': 410
+      },
+      'flipper_r': {
+        'color': self.get_cell_color('flipper'),
+        'x_pos': self.screen_size[0] - 190,
+        'y_pos': 440
+      },
+      'flipper_l': {
+        'color': self.get_cell_color('flipper'),
+        'x_pos': self.screen_size[0] - 190,
+        'y_pos': 470
+      },
     }
 
     return cell_type_display
@@ -113,12 +149,26 @@ class LevelCanvas:
     self.highest_y_pos -= 80
 
   def handle_key_down(self, key):
-    if key == pygame.K_p:
-      self.selected_cell_type = 'player'
-    elif key == pygame.K_g:
-      self.selected_cell_type = 'goal'
-    elif key == pygame.K_b:
+    if key == pygame.K_1:
       self.selected_cell_type = 'block'
+    if key == pygame.K_2:
+      self.selected_cell_type = 'player'
+    elif key == pygame.K_3:
+      self.selected_cell_type = 'goal'
+    elif key == pygame.K_4:
+      self.selected_cell_type = 'fader_in'
+    elif key == pygame.K_5:
+      self.selected_cell_type = 'fader_out'  
+    elif key == pygame.K_6:
+      self.selected_cell_type = 'bouncer'
+    elif key == pygame.K_7:
+      self.selected_cell_type = 'lock'
+    elif key == pygame.K_8:
+      self.selected_cell_type = 'fader_switch'
+    elif key == pygame.K_9:
+      self.selected_cell_type = 'flipper_r' 
+    elif key == pygame.K_0:
+      self.selected_cell_type = 'flipper_l'   
 
     if key == pygame.K_LEFT or key == pygame.K_a:
       self.scroll_x_direction = 1
@@ -222,6 +272,18 @@ class LevelCanvas:
       return 115, 251, 211
     elif cell_type == 'player':
       return 226, 109, 92
+    elif cell_type == 'fader_in':
+      return 200, 214, 230
+    elif cell_type == 'fader_out':
+      return 200, 214, 230, 0.5  
+    elif cell_type == 'bouncer':
+      return 171, 41, 65
+    elif 'flipper' in cell_type:
+      return 7, 196, 230
+    elif cell_type == 'lock':
+      return 51, 62, 64
+    elif cell_type == 'fader_switch':
+      return 0, 0, 0      
     elif cell_type == 'block' or cell_type == 'empty':
       return 255, 255, 255
 
