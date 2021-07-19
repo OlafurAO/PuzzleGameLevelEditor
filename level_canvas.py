@@ -189,6 +189,11 @@ class LevelCanvas:
     if index != -1:
       if not (self.selected_cell_type == 'player' and self.player_placed)\
         and not (self.selected_cell_type == 'goal' and self.goal_placed):
+        if self.level_cells[index].get_cell_type() == 'player':
+          self.player_placed = False
+        elif self.level_cells[index].get_cell_type() == 'goal':
+          self.goal_placed = False
+
         self.level_cells[index].set_cell_type(self.selected_cell_type)
 
         if self.selected_cell_type == 'player':
