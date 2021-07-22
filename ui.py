@@ -26,6 +26,15 @@ class UI:
 
     game_display.blit(self.load_text, (x - 100, 0))
 
+    pygame.draw.rect(
+      game_display, (111, 125, 140), pygame.Rect(
+        self.buttons[7][0], self.buttons[7][1], 
+        self.buttons[7][2], self.buttons[7][3]
+      )
+    )
+
+    game_display.blit(self.save_text, (x - 100, 60))
+
     game_display.blit(self.level_size_text, (x + 30, 0))
 
     game_display.blit(self.x_text, (x + 10, 30))
@@ -70,10 +79,15 @@ class UI:
   def select_level_file(self):
     file = self.xml_manager.select_file()    
     return file
+
+  def save_level_file(self):
+    file_name = self.xml_manager.save_file()  
+    return file_name
       
   def init_text(self):
     self.font = pygame.font.Font('fonts/pixeled.ttf', 16)
     self.load_text = self.font.render('Load', False, (255, 255, 255))
+    self.save_text = self.font.render('Save', False, (255, 255, 255))
     self.level_size_text = self.font.render('Level size', False, (255, 255, 255))
     self.x_text = self.font.render('X: ', False, (255, 255, 255))
     self.y_text = self.font.render('Y: ', False, (255, 255, 255))
@@ -89,7 +103,8 @@ class UI:
 
       (self.screen_size[0] - 20, 110, 40, 40),
       (self.screen_size[0] - 40, 112, 40, 40),
-      (self.screen_size[0] - self.width - 120, 0, 100, 50)
+      (self.screen_size[0] - self.width - 120, 0, 100, 50),
+      (self.screen_size[0] - self.width - 120, 60, 100, 50)
     ] 
 
     self.plus_icon = self.font.render('+', False, (255, 255, 255)) 

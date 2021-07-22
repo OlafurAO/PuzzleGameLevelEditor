@@ -1,25 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <level>
-	<max_moves>6</max_moves>
+	<max_moves>5</max_moves>
 	<level_size>
 		<x> 480 </x>
 		<y> 480 </y>
 	</level_size>
 	<goal_pos>
-		<x> 0 </x>
-		<y> 400 </y>
+		<x> 240 </x>
+		<y> 0 </y>
 	</goal_pos>
-	<obstacle_pos>
-		<x> 0 </x>
-		<y> 0 </y>
-	</obstacle_pos>
-	<obstacle_pos>
-		<x> 80 </x>
-		<y> 0 </y>
-	</obstacle_pos>
 	<player_pos>
-		<x> 400 </x>
-		<y> 80 </y>
+		<x> 160 </x>
+		<y> 0 </y>
 	</player_pos>
-
 </level>

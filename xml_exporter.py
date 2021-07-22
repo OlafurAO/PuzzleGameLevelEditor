@@ -20,6 +20,15 @@ class XmlManager:
 
     return files[0]
 
+  def save_file(self):
+    file_name = filedialog.asksaveasfilename(parent=self.root, defaultextension='.xml') 
+
+    if not file_name.endswith('.xml'):
+      messagebox.showerror('Incorrect file format!', 'Please save as an .xml file')
+      return None
+    
+    return file_name 
+
   def parse_xml_file(self, file):
     level_data = {}
 
@@ -37,7 +46,7 @@ class XmlManager:
     
     # TODO: more blocks
     blocks = {
-      'obstacle': tree_root.findall('obstacle_pos'),
+      'block': tree_root.findall('obstacle_pos'),
       'fader_in': tree_root.findall('fader_in_pos'),
       'fader_out': tree_root.findall('fader_out_pos'),
       'fader_switch': tree_root.findall('fader_switch_pos'),
@@ -57,9 +66,8 @@ class XmlManager:
   
     return level_data
     
-
   @staticmethod
-  def export_level_to_xml(level_cells, level_size, max_moves):
+  def export_level_to_xml(file_name, level_cells, level_size, max_moves):
     goal_pos = None
     player_pos = None
     obstacle_pos = []

@@ -14,6 +14,7 @@ def check_for_ui_click(ui, level_canvas, mouse_pos):
   button_click = ui.check_for_button_click(mouse_pos)
 
   if button_click != '':
+    global level_size 
     if button_click == 0:
       level_size[0] += 80
     elif button_click == 1:
@@ -30,12 +31,13 @@ def check_for_ui_click(ui, level_canvas, mouse_pos):
       level_canvas.modify_move_count(-1)
     elif button_click == 6:
       file = ui.select_level_file()
-      if file != None:
-        level_canvas.load_level_from_file(file)
-        new_level_size = level_canvas.get_level_size()
-        ui.set_level_size_text(new_level_size[0], new_level_size[1])
-        ui.init_text()
-
+      if file != None:        
+        level_canvas.load_level_from_file(file)        
+        level_size = level_canvas.get_level_size()
+    elif button_click == 7:
+      file_name = ui.save_level_file()
+      if file_name != None:
+        level_canvas.export_xml(file_name)
 
     level_canvas.set_level_size(level_size[0], level_size[1])
     ui.set_level_size_text(level_size[0], level_size[1])

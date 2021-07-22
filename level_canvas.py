@@ -1,3 +1,4 @@
+from os import error
 import pygame
 from level_cell import LevelCell
 from xml_exporter import XmlManager
@@ -45,15 +46,22 @@ class LevelCanvas:
         ), 1 if cell_type == 'empty' else 0
       )
 
-  def export_xml(self):
+  def export_xml(self, file_name):
     try:
-      self.xml_manager.export_level_to_xml(self.level_cells, (self.size_x, self.size_y), self.max_moves)
+      self.xml_manager.export_level_to_xml(
+        file_name, self.level_cells, 
+        (self.size_x, self.size_y), 
+        self.max_moves
+      )
       print('success')
     except:
       print('error')
 
   def load_level_from_file(self, file):
     self.level_cells = []
+    self.level_cell_locations = []
+    self.highest_x_pos = 0
+    self.highest_y_pos = 0
     level_data = self.xml_manager.parse_xml_file(file)
     self.max_moves = level_data['max_moves']
 
@@ -69,12 +77,13 @@ class LevelCanvas:
       cell_pos = self.level_cells[cell_index].get_coordinates()
       if goal_pos == cell_pos:
         self.level_cells[cell_index] = LevelCell(goal_pos[0], goal_pos[1], 'goal')
-      if player_pos == cell_pos:
+      elif player_pos == cell_pos:
         self.level_cells[cell_index] = LevelCell(goal_pos[0], goal_pos[1], 'player')  
-
-
-
-    print(level_data)
+      
+      for block_type in blocks:
+        for block_pos in blocks[block_type]:
+          if block_pos == cell_pos:
+            self.level_cells[cell_index] = LevelCell(block_pos[0], block_pos[1], block_type)
 
   def init_level_cells(self):
     existing_coordinates = self.get_existing_coordinates()
@@ -204,7 +213,8 @@ class LevelCanvas:
       self.scroll_y_direction = -1 
 
     elif key == pygame.K_SPACE:
-      self.export_xml()
+      pass
+      #self.export_xml()
     elif key == pygame.K_q:
       self.clear_canvas()    
 
@@ -296,7 +306,7 @@ class LevelCanvas:
     return self.max_moves  
 
   def get_level_size(self):
-    return (self.size_x, self.size_y)
+    return [self.size_x, self.size_y]
 
   @staticmethod
   def get_cell_color(cell_type):
