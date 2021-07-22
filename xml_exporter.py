@@ -157,7 +157,7 @@ class XmlManager:
 
     xml_str += '</level>'
 
-    with open('level.xml', 'w') as f:
+    with open(file_name, 'w') as f:
       f.write(xml_str)
 
   def get_xml_obj_pos(self, obj):
