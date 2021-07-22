@@ -1,8 +1,65 @@
-import tkinter
+import tkinter as tk
+from tkinter import filedialog
+from tkinter import messagebox
+import xml.etree.ElementTree as ET
 
-class XmlExporter:
+class XmlManager:
+  def __init__(self) -> None:
+    self.root = tk.Tk()
+    self.root.withdraw()
+    self.root.focus_force()
+
+  def select_file(self):
+    files = filedialog.askopenfilenames(parent=self.root)
+    if len(files) == 0:
+      return None
+
+    if not files[0].endswith('.xml'):
+      messagebox.showerror('Incorrect file format!', 'Please select a valid .xml file')
+      return None
+
+    return files[0]
+
+  def parse_xml_file(self, file):
+    level_data = {}
+
+    tree = ET.parse(file)
+    tree_root = tree.getroot()
+
+    size = tree_root.find('level_size')
+    goal = tree_root.find('goal_pos')
+    player = tree_root.find('player_pos')
+
+    level_data['max_moves'] = int(tree_root.find('max_moves').text)
+    level_data['level_size'] = self.get_xml_obj_pos(size)
+    level_data['goal_pos'] = self.get_xml_obj_pos(goal)
+    level_data['player_pos'] = self.get_xml_obj_pos(player)
+    
+    # TODO: more blocks
+    blocks = {
+      'obstacle': tree_root.findall('obstacle_pos'),
+      'fader_in': tree_root.findall('fader_in_pos'),
+      'fader_out': tree_root.findall('fader_out_pos'),
+      'fader_switch': tree_root.findall('fader_switch_pos'),
+      'bouncer': tree_root.findall('bouncer_pos'),
+      'lock': tree_root.findall('lock_pos'),
+      'flipper_r': tree_root.findall('flipper_r_pos'),
+      'flipper_l': tree_root.findall('flipper_l_pos')
+    }
+
+    level_data['blocks'] = {}
+    for key in blocks:
+      level_data['blocks'][key] = []
+      for block in blocks[key]:
+        level_data['blocks'][key].append(
+          self.get_xml_obj_pos(block)
+        )
+  
+    return level_data
+    
+
   @staticmethod
-  def export_xml(level_cells, level_size, max_moves):
+  def export_level_to_xml(level_cells, level_size, max_moves):
     goal_pos = None
     player_pos = None
     obstacle_pos = []
@@ -83,17 +140,20 @@ class XmlExporter:
     for i in flipper_l_pos:  
       xml_str += '\t<flipper_l_pos>\n\t\t<x> ' + str(i[0]) + ' </x>\n'
       xml_str += '\t\t<y> ' + str(i[1]) + ' </y>\n\t</flipper_l_pos>\n'    
+    # TODO: more blocks
+
 
     # player pos
     xml_str += '\t<player_pos>\n\t\t<x> ' + str(player_pos[0]) + ' </x>\n'
     xml_str += '\t\t<y> ' + str(player_pos[1]) + ' </y>\n\t</player_pos>\n'
 
-    xml_str += '\n</level>'
+    xml_str += '</level>'
 
     with open('level.xml', 'w') as f:
       f.write(xml_str)
 
-
-
-
-
+  def get_xml_obj_pos(self, obj):
+    return (
+      int(obj.find('x').text), 
+      int(obj.find('y').text)
+    )    

@@ -1,3 +1,4 @@
+from xml_exporter import XmlManager
 import pygame
 from level_canvas import LevelCanvas
 from ui import UI
@@ -27,6 +28,14 @@ def check_for_ui_click(ui, level_canvas, mouse_pos):
       level_canvas.modify_move_count(1)
     elif button_click == 5:
       level_canvas.modify_move_count(-1)
+    elif button_click == 6:
+      file = ui.select_level_file()
+      if file != None:
+        level_canvas.load_level_from_file(file)
+        new_level_size = level_canvas.get_level_size()
+        ui.set_level_size_text(new_level_size[0], new_level_size[1])
+        ui.init_text()
+
 
     level_canvas.set_level_size(level_size[0], level_size[1])
     ui.set_level_size_text(level_size[0], level_size[1])
@@ -39,7 +48,6 @@ def check_for_ui_click(ui, level_canvas, mouse_pos):
       level_canvas.shrink_level_y()  
         
 
-
 def draw(level_canvas, ui):
   game_display.fill((0, 0, 0))
   level_canvas.draw_level(game_display)
@@ -50,11 +58,12 @@ def draw(level_canvas, ui):
 
 
 def main():
-  level_canvas = LevelCanvas(screen_size)
+  xml_manager = XmlManager()
+  level_canvas = LevelCanvas(screen_size, xml_manager)
   level_canvas.set_level_size(level_size[0], level_size[1])
   level_canvas.init_level_cells()
 
-  ui = UI(screen_size, level_canvas.init_cell_type_display())
+  ui = UI(screen_size, level_canvas.init_cell_type_display(), xml_manager)
   ui.set_level_size_text(level_size[0], level_size[1])
   ui.set_cell_type_texts()
   ui.init_buttons()

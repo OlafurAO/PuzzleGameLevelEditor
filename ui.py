@@ -1,12 +1,12 @@
 import pygame
-import os
 
 class UI:
-  def __init__(self, screen_size, cell_type_display_info) -> None:
+  def __init__(self, screen_size, cell_type_display_info, xml_manager) -> None:
     pygame.font.init()
     self.init_text()
     self.screen_size = screen_size
     self.cell_type_display_info = cell_type_display_info
+    self.xml_manager = xml_manager
     self.width = 200
 
   def draw_ui(self, game_display, selected_cell_type, max_moves):
@@ -16,6 +16,15 @@ class UI:
         x - 20, 0, self.width + 20, self.screen_size[1]
       )
     )
+
+    pygame.draw.rect(
+      game_display, (111, 125, 140), pygame.Rect(
+        self.buttons[6][0], self.buttons[6][1], 
+        self.buttons[6][2], self.buttons[6][3]
+      )
+    )
+
+    game_display.blit(self.load_text, (x - 100, 0))
 
     game_display.blit(self.level_size_text, (x + 30, 0))
 
@@ -57,10 +66,14 @@ class UI:
         (self.cell_type_display_info[cell_type]['x_pos'] + 35, 
         self.cell_type_display_info[cell_type]['y_pos'] - 14)
       )
+
+  def select_level_file(self):
+    file = self.xml_manager.select_file()    
+    return file
       
   def init_text(self):
     self.font = pygame.font.Font('fonts/pixeled.ttf', 16)
-
+    self.load_text = self.font.render('Load', False, (255, 255, 255))
     self.level_size_text = self.font.render('Level size', False, (255, 255, 255))
     self.x_text = self.font.render('X: ', False, (255, 255, 255))
     self.y_text = self.font.render('Y: ', False, (255, 255, 255))
@@ -68,13 +81,15 @@ class UI:
 
   def init_buttons(self):
     self.buttons = [
-      (self.screen_size[0] - 20, 30),
-      (self.screen_size[0] - 40, 32),
-      (self.screen_size[0] - 20, 70),
-      (self.screen_size[0] - 40, 72),
+      # x, y, width, height
+      (self.screen_size[0] - 20, 30, 40, 40),
+      (self.screen_size[0] - 40, 32, 40, 40),
+      (self.screen_size[0] - 20, 70, 40, 40),
+      (self.screen_size[0] - 40, 72, 40, 40),
 
-      (self.screen_size[0] - 20, 110),
-      (self.screen_size[0] - 40, 112),
+      (self.screen_size[0] - 20, 110, 40, 40),
+      (self.screen_size[0] - 40, 112, 40, 40),
+      (self.screen_size[0] - self.width - 120, 0, 100, 50)
     ] 
 
     self.plus_icon = self.font.render('+', False, (255, 255, 255)) 
@@ -82,8 +97,8 @@ class UI:
 
   def check_for_button_click(self, mouse_pos):
     for i in range(len(self.buttons)):
-      if self.buttons[i][0] <= mouse_pos[0] <= self.buttons[i][0] + 40:
-        if self.buttons[i][1] <= mouse_pos[1] <= self.buttons[i][1] + 40:
+      if self.buttons[i][0] <= mouse_pos[0] <= self.buttons[i][0] + self.buttons[i][2]:
+        if self.buttons[i][1] <= mouse_pos[1] <= self.buttons[i][1] + self.buttons[i][3]:
           return i
 
     return ''    

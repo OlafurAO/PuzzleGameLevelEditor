@@ -1,11 +1,11 @@
 import pygame
 from level_cell import LevelCell
-from xml_exporter import XmlExporter
+from xml_exporter import XmlManager
 
 
 class LevelCanvas:
-  def __init__(self, screen_size) -> None:
-    self.xml_exporter = XmlExporter()
+  def __init__(self, screen_size, xml_manager) -> None:
+    self.xml_manager = xml_manager
     self.screen_size = screen_size
 
     self.max_moves = 5
@@ -47,10 +47,34 @@ class LevelCanvas:
 
   def export_xml(self):
     try:
-      self.xml_exporter.export_xml(self.level_cells, (self.size_x, self.size_y), self.max_moves)
+      self.xml_manager.export_level_to_xml(self.level_cells, (self.size_x, self.size_y), self.max_moves)
       print('success')
     except:
       print('error')
+
+  def load_level_from_file(self, file):
+    self.level_cells = []
+    level_data = self.xml_manager.parse_xml_file(file)
+    self.max_moves = level_data['max_moves']
+
+    size = level_data['level_size']
+    self.set_level_size(size[0], size[1])
+    self.init_level_cells()
+
+    goal_pos = level_data['goal_pos']
+    player_pos = level_data['player_pos']
+    blocks = level_data['blocks']
+
+    for cell_index in range(len(self.level_cells)):
+      cell_pos = self.level_cells[cell_index].get_coordinates()
+      if goal_pos == cell_pos:
+        self.level_cells[cell_index] = LevelCell(goal_pos[0], goal_pos[1], 'goal')
+      if player_pos == cell_pos:
+        self.level_cells[cell_index] = LevelCell(goal_pos[0], goal_pos[1], 'player')  
+
+
+
+    print(level_data)
 
   def init_level_cells(self):
     existing_coordinates = self.get_existing_coordinates()
@@ -270,6 +294,9 @@ class LevelCanvas:
 
   def get_max_moves(self):
     return self.max_moves  
+
+  def get_level_size(self):
+    return (self.size_x, self.size_y)
 
   @staticmethod
   def get_cell_color(cell_type):
