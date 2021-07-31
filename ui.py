@@ -35,8 +35,25 @@ class UI:
 
     game_display.blit(self.save_text, (x - 100, 60))
 
-    game_display.blit(self.level_size_text, (x + 30, 0))
+    pygame.draw.rect(
+      game_display, (111, 125, 140), pygame.Rect(
+        self.buttons[8][0], self.buttons[8][1], 
+        self.buttons[8][2], self.buttons[8][3]
+      )
+    )
 
+    game_display.blit(self.reset_text, (x - 100, 120))
+
+    pygame.draw.rect(
+      game_display, (111, 125, 140), pygame.Rect(
+        self.buttons[9][0], self.buttons[9][1], 
+        self.buttons[9][2], self.buttons[9][3]
+      )
+    )
+
+    game_display.blit(self.randomize_text, (x - 100, 180))
+
+    game_display.blit(self.level_size_text, (x + 30, 0))
     game_display.blit(self.x_text, (x + 10, 30))
     game_display.blit(self.x_val_text, (x + 50, 30))
     game_display.blit(self.plus_icon, (self.buttons[0][0], self.buttons[0][1]))
@@ -88,6 +105,8 @@ class UI:
     self.font = pygame.font.Font('fonts/pixeled.ttf', 16)
     self.load_text = self.font.render('Load', False, (255, 255, 255))
     self.save_text = self.font.render('Save', False, (255, 255, 255))
+    self.reset_text = self.font.render('Reset', False, (255, 255, 255))
+    self.randomize_text = self.font.render('Rand', False, (255, 255, 255))
     self.level_size_text = self.font.render('Level size', False, (255, 255, 255))
     self.x_text = self.font.render('X: ', False, (255, 255, 255))
     self.y_text = self.font.render('Y: ', False, (255, 255, 255))
@@ -104,7 +123,9 @@ class UI:
       (self.screen_size[0] - 20, 110, 40, 40),
       (self.screen_size[0] - 40, 112, 40, 40),
       (self.screen_size[0] - self.width - 120, 0, 100, 50),
-      (self.screen_size[0] - self.width - 120, 60, 100, 50)
+      (self.screen_size[0] - self.width - 120, 60, 100, 50),
+      (self.screen_size[0] - self.width - 120, 120, 100, 50),
+      (self.screen_size[0] - self.width - 120, 180, 100, 50)
     ] 
 
     self.plus_icon = self.font.render('+', False, (255, 255, 255)) 

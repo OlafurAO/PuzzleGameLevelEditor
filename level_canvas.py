@@ -1,5 +1,6 @@
 from os import error
 import pygame
+import random
 from level_cell import LevelCell
 from xml_exporter import XmlManager
 
@@ -57,11 +58,28 @@ class LevelCanvas:
     except:
       print('error')
 
+  def load_random_level(self):
+    self.level_cells = []
+    self.level_cell_locations = []
+    self.highest_x_pos = 0
+    self.highest_y_pos = 0
+    self.player_placed = False
+    self.goal_placed = False
+    self.init_level_cells()
+
+    for cell_index in range(len(self.level_cells)):
+      if random.randint(0, 2) == 0:
+        cell_pos = self.level_cells[cell_index].get_coordinates()
+        self.level_cells[cell_index] = LevelCell(cell_pos[0], cell_pos[1], 'block')
+
   def load_level_from_file(self, file):
     self.level_cells = []
     self.level_cell_locations = []
     self.highest_x_pos = 0
     self.highest_y_pos = 0
+    self.player_placed = False
+    self.goal_placed = False
+    
     level_data = self.xml_manager.parse_xml_file(file)
     self.max_moves = level_data['max_moves']
 
