@@ -79,7 +79,6 @@ class XmlManager:
     lock_pos = []
     fader_switch = []
 
-
     for cell in level_cells:
       cell_type = cell.get_cell_type()
       if cell_type == 'goal':

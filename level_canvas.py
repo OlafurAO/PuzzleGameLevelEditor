@@ -77,8 +77,6 @@ class LevelCanvas:
     self.level_cell_locations = []
     self.highest_x_pos = 0
     self.highest_y_pos = 0
-    self.player_placed = False
-    self.goal_placed = False
     
     level_data = self.xml_manager.parse_xml_file(file)
     self.max_moves = level_data['max_moves']
@@ -95,8 +93,11 @@ class LevelCanvas:
       cell_pos = self.level_cells[cell_index].get_coordinates()
       if goal_pos == cell_pos:
         self.level_cells[cell_index] = LevelCell(goal_pos[0], goal_pos[1], 'goal')
+        self.goal_placed = True
+        
       elif player_pos == cell_pos:
-        self.level_cells[cell_index] = LevelCell(goal_pos[0], goal_pos[1], 'player')  
+        self.level_cells[cell_index] = LevelCell(player_pos[0], player_pos[1], 'player')  
+        self.player_placed = True
       
       for block_type in blocks:
         for block_pos in blocks[block_type]:
