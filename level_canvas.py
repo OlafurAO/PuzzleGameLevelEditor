@@ -122,53 +122,63 @@ class LevelCanvas:
     cell_type_display = {
       'block': {
         'color': self.get_cell_color('block'),
-        'x_pos': self.screen_size[0] - 190,
+        'x_pos': self.screen_size[0] - 230,
         'y_pos': 200
       },
       'player': {
         'color': self.get_cell_color('player'),
-        'x_pos': self.screen_size[0] - 190,
+        'x_pos': self.screen_size[0] - 230,
         'y_pos': 230
       },
       'goal': {
         'color': self.get_cell_color('goal'),
-        'x_pos': self.screen_size[0] - 190,
+        'x_pos': self.screen_size[0] - 230,
         'y_pos': 260
       },
       'fader_in': {
         'color': self.get_cell_color('fader_in'),
-        'x_pos': self.screen_size[0] - 190,
+        'x_pos': self.screen_size[0] - 230,
         'y_pos': 290
       },
       'fader_out': {
         'color': self.get_cell_color('fader_out'),
-        'x_pos': self.screen_size[0] - 190,
+        'x_pos': self.screen_size[0] - 230,
         'y_pos': 320
       },
       'bouncer': {
         'color': self.get_cell_color('bouncer'),
-        'x_pos': self.screen_size[0] - 190,
+        'x_pos': self.screen_size[0] - 230,
         'y_pos': 350
       },
       'lock': {
         'color': self.get_cell_color('lock'),
-        'x_pos': self.screen_size[0] - 190,
+        'x_pos': self.screen_size[0] - 230,
         'y_pos': 380
       }, 
       'fader_switch': {
         'color': self.get_cell_color('fader_switch'),
-        'x_pos': self.screen_size[0] - 190,
+        'x_pos': self.screen_size[0] - 230,
         'y_pos': 410
-      },
-      'flipper_r': {
-        'color': self.get_cell_color('flipper'),
-        'x_pos': self.screen_size[0] - 190,
-        'y_pos': 440
       },
       'flipper_l': {
         'color': self.get_cell_color('flipper'),
-        'x_pos': self.screen_size[0] - 190,
+        'x_pos': self.screen_size[0] - 230,
+        'y_pos': 440
+      },
+      'flipper_r': {
+        'color': self.get_cell_color('flipper'),
+        'x_pos': self.screen_size[0] - 230,
         'y_pos': 470
+      },
+      'flipper_u': {
+        'color': self.get_cell_color('flipper'),
+        'x_pos': self.screen_size[0] - 230,
+        'y_pos': 500
+      },
+      'flipper_d': {
+        'color': self.get_cell_color('flipper'),
+        'x_pos': self.screen_size[0] - 230,
+        'y_pos': 530
       },
     }
 
@@ -217,10 +227,14 @@ class LevelCanvas:
       self.selected_cell_type = 'lock'
     elif key == pygame.K_8:
       self.selected_cell_type = 'fader_switch'
-    elif key == pygame.K_9:
-      self.selected_cell_type = 'flipper_r' 
-    elif key == pygame.K_0:
-      self.selected_cell_type = 'flipper_l'   
+    elif key == pygame.K_F1:
+      self.selected_cell_type = 'flipper_l' 
+    elif key == pygame.K_F2:
+      self.selected_cell_type = 'flipper_r'   
+    elif key == pygame.K_F3:
+      self.selected_cell_type = 'flipper_u'     
+    elif key == pygame.K_F4:
+      self.selected_cell_type = 'flipper_d'     
 
     if key == pygame.K_LEFT or key == pygame.K_a:
       self.scroll_x_direction = 1

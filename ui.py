@@ -7,7 +7,7 @@ class UI:
     self.screen_size = screen_size
     self.cell_type_display_info = cell_type_display_info
     self.xml_manager = xml_manager
-    self.width = 200
+    self.width = 250
 
   def draw_ui(self, game_display, selected_cell_type, max_moves):
     x = self.screen_size[0] - self.width
@@ -153,6 +153,8 @@ class UI:
       'bouncer': self.font.render('(6) Bouncer', False, (255, 255, 255)),
       'lock': self.font.render('(7) Lock', False, (255, 255, 255)),
       'fader_switch': self.font.render('(8) F-switch', False, (255, 255, 255)),
-      'flipper_r': self.font.render('(9) Flipper-r', False, (255, 255, 255)),
-      'flipper_l': self.font.render('(0) Flipper-l', False, (255, 255, 255)),
+      'flipper_l': self.font.render('(F1) Flipper-l', False, (255, 255, 255)),
+      'flipper_r': self.font.render('(F2) Flipper-r', False, (255, 255, 255)),
+      'flipper_u': self.font.render('(F3) Flipper-u', False, (255, 255, 255)),
+      'flipper_d': self.font.render('(F4) Flipper-d', False, (255, 255, 255)),
     } 

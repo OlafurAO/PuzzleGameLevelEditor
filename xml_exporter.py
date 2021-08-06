@@ -53,7 +53,9 @@ class XmlManager:
       'bouncer': tree_root.findall('bouncer_pos'),
       'lock': tree_root.findall('lock_pos'),
       'flipper_r': tree_root.findall('flipper_r_pos'),
-      'flipper_l': tree_root.findall('flipper_l_pos')
+      'flipper_l': tree_root.findall('flipper_l_pos'),
+      'flipper_u': tree_root.findall('flipper_u_pos'),
+      'flipper_d': tree_root.findall('flipper_d_pos')
     }
 
     level_data['blocks'] = {}
@@ -74,8 +76,10 @@ class XmlManager:
     fader_in_pos = []
     fader_out_pos = []
     bouncer_pos = []
-    flipper_r_pos = []
     flipper_l_pos = []
+    flipper_r_pos = []
+    flipper_u_pos = []
+    flipper_d_pos = []
     lock_pos = []
     fader_switch = []
 
@@ -97,6 +101,10 @@ class XmlManager:
         flipper_r_pos.append(cell.get_coordinates())    
       elif cell_type == 'flipper_l':
         flipper_l_pos.append(cell.get_coordinates())    
+      elif cell_type == 'flipper_u':
+        flipper_u_pos.append(cell.get_coordinates())    
+      elif cell_type == 'flipper_d':
+        flipper_d_pos.append(cell.get_coordinates())    
       elif cell_type == 'lock':
         lock_pos.append(cell.get_coordinates())    
       elif cell_type == 'fader_switch':
@@ -140,13 +148,23 @@ class XmlManager:
       xml_str += '\t<lock_pos>\n\t\t<x> ' + str(i[0]) + ' </x>\n'
       xml_str += '\t\t<y> ' + str(i[1]) + ' </y>\n\t</lock_pos>\n'      
 
-    for i in flipper_r_pos:  
-      xml_str += '\t<flipper_r_pos>\n\t\t<x> ' + str(i[0]) + ' </x>\n'
-      xml_str += '\t\t<y> ' + str(i[1]) + ' </y>\n\t</flipper_r_pos>\n'      
-
     for i in flipper_l_pos:  
       xml_str += '\t<flipper_l_pos>\n\t\t<x> ' + str(i[0]) + ' </x>\n'
       xml_str += '\t\t<y> ' + str(i[1]) + ' </y>\n\t</flipper_l_pos>\n'    
+
+    for i in flipper_r_pos:  
+      xml_str += '\t<flipper_r_pos>\n\t\t<x> ' + str(i[0]) + ' </x>\n'
+      xml_str += '\t\t<y> ' + str(i[1]) + ' </y>\n\t</flipper_r_pos>\n'    
+
+    for i in flipper_u_pos:  
+      xml_str += '\t<flipper_u_pos>\n\t\t<x> ' + str(i[0]) + ' </x>\n'
+      xml_str += '\t\t<y> ' + str(i[1]) + ' </y>\n\t</flipper_u_pos>\n'    
+
+    for i in flipper_d_pos:  
+      xml_str += '\t<flipper_d_pos>\n\t\t<x> ' + str(i[0]) + ' </x>\n'
+      xml_str += '\t\t<y> ' + str(i[1]) + ' </y>\n\t</flipper_d_pos>\n'      
+
+
     # TODO: more blocks
 
 
