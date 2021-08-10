@@ -40,11 +40,11 @@ class LevelCanvas:
 
       pygame.draw.rect(
         game_display, color, pygame.Rect(
-          coordinates[0],
-          coordinates[1],
-          self.cell_size,
-          self.cell_size
-        ), 1 if cell_type == 'empty' else 0
+          coordinates[0] + self.cell_size / 4 if 'switch' in cell_type else coordinates[0],
+          coordinates[1] + self.cell_size / 4 if 'switch' in cell_type else coordinates[1],
+          self.cell_size / 2 if 'switch' in cell_type else self.cell_size,
+          self.cell_size / 2 if 'switch' in cell_type else self.cell_size,
+        ), 1 if cell_type == 'empty' else 5 if cell_type == 'fader_out' else 0
       )
 
   def export_xml(self, file_name):
@@ -160,25 +160,30 @@ class LevelCanvas:
         'x_pos': self.screen_size[0] - 230,
         'y_pos': 410
       },
-      'flipper_l': {
-        'color': self.get_cell_color('flipper'),
+      'flipper_switch': {
+        'color': self.get_cell_color('flipper_switch'),
         'x_pos': self.screen_size[0] - 230,
         'y_pos': 440
       },
-      'flipper_r': {
+      'flipper_l': {
         'color': self.get_cell_color('flipper'),
         'x_pos': self.screen_size[0] - 230,
         'y_pos': 470
       },
-      'flipper_u': {
+      'flipper_r': {
         'color': self.get_cell_color('flipper'),
         'x_pos': self.screen_size[0] - 230,
         'y_pos': 500
       },
-      'flipper_d': {
+      'flipper_u': {
         'color': self.get_cell_color('flipper'),
         'x_pos': self.screen_size[0] - 230,
         'y_pos': 530
+      },
+      'flipper_d': {
+        'color': self.get_cell_color('flipper'),
+        'x_pos': self.screen_size[0] - 230,
+        'y_pos': 560
       },
     }
 
@@ -227,6 +232,8 @@ class LevelCanvas:
       self.selected_cell_type = 'lock'
     elif key == pygame.K_8:
       self.selected_cell_type = 'fader_switch'
+    elif key == pygame.K_9:
+      self.selected_cell_type = 'flipper_switch'  
     elif key == pygame.K_F1:
       self.selected_cell_type = 'flipper_l' 
     elif key == pygame.K_F2:
@@ -350,7 +357,7 @@ class LevelCanvas:
     elif cell_type == 'fader_in':
       return 200, 214, 230
     elif cell_type == 'fader_out':
-      return 200, 214, 230, 0.5  
+      return 200, 214, 230  
     elif cell_type == 'bouncer':
       return 171, 41, 65
     elif 'flipper' in cell_type:
@@ -358,7 +365,7 @@ class LevelCanvas:
     elif cell_type == 'lock':
       return 51, 62, 64
     elif cell_type == 'fader_switch':
-      return 0, 0, 0      
+      return 100, 100, 0          
     elif cell_type == 'block' or cell_type == 'empty':
       return 255, 255, 255
 

@@ -83,8 +83,8 @@ class UI:
         game_display, self.cell_type_display_info[cell_type]['color'], pygame.Rect(
           self.cell_type_display_info[cell_type]['x_pos'],
           self.cell_type_display_info[cell_type]['y_pos'],    
-          25, 25
-        ) 
+          25, 25,
+        ), 2 if cell_type == 'fader_out' else 0
       )
 
       game_display.blit(
@@ -152,7 +152,8 @@ class UI:
       'fader_out': self.font.render('(5) Fader-o', False, (255, 255, 255)),
       'bouncer': self.font.render('(6) Bouncer', False, (255, 255, 255)),
       'lock': self.font.render('(7) Lock', False, (255, 255, 255)),
-      'fader_switch': self.font.render('(8) F-switch', False, (255, 255, 255)),
+      'fader_switch': self.font.render('(8) Fa-switch', False, (255, 255, 255)),
+      'flipper_switch': self.font.render('(9) Fl-switch', False, (255, 255, 255)),
       'flipper_l': self.font.render('(F1) Flipper-l', False, (255, 255, 255)),
       'flipper_r': self.font.render('(F2) Flipper-r', False, (255, 255, 255)),
       'flipper_u': self.font.render('(F3) Flipper-u', False, (255, 255, 255)),

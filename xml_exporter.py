@@ -55,7 +55,8 @@ class XmlManager:
       'flipper_r': tree_root.findall('flipper_r_pos'),
       'flipper_l': tree_root.findall('flipper_l_pos'),
       'flipper_u': tree_root.findall('flipper_u_pos'),
-      'flipper_d': tree_root.findall('flipper_d_pos')
+      'flipper_d': tree_root.findall('flipper_d_pos'),
+      'flipper_switch': tree_root.findall('flipper_switch_pos')
     }
 
     level_data['blocks'] = {}
@@ -82,6 +83,7 @@ class XmlManager:
     flipper_d_pos = []
     lock_pos = []
     fader_switch = []
+    flipper_switch = []
 
     for cell in level_cells:
       cell_type = cell.get_cell_type()
@@ -109,6 +111,8 @@ class XmlManager:
         lock_pos.append(cell.get_coordinates())    
       elif cell_type == 'fader_switch':
         fader_switch.append(cell.get_coordinates())  
+      elif cell_type == 'flipper_switch':
+        flipper_switch.append(cell.get_coordinates())    
 
     xml_str = '<?xml version="1.0" encoding="UTF-8"?>\n<level>\n'
     xml_str += '\t<max_moves>' + str(max_moves) + '</max_moves>\n'
@@ -163,6 +167,10 @@ class XmlManager:
     for i in flipper_d_pos:  
       xml_str += '\t<flipper_d_pos>\n\t\t<x> ' + str(i[0]) + ' </x>\n'
       xml_str += '\t\t<y> ' + str(i[1]) + ' </y>\n\t</flipper_d_pos>\n'      
+
+    for i in flipper_switch:  
+      xml_str += '\t<flipper_switch_pos>\n\t\t<x> ' + str(i[0]) + ' </x>\n'
+      xml_str += '\t\t<y> ' + str(i[1]) + ' </y>\n\t</flipper_switch_pos>\n'      
 
 
     # TODO: more blocks
