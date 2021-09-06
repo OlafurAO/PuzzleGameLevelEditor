@@ -14,6 +14,7 @@ class LevelCanvas:
     self.cell_size = 80
     self.level_cells = []
     self.level_cell_locations = []
+    self.max_lock_id = 0
 
     self.scroll_x_direction = 0
     self.scroll_y_direction = 0
@@ -44,7 +45,7 @@ class LevelCanvas:
           coordinates[1] + self.cell_size / 4 if 'switch' in cell_type else coordinates[1],
           self.cell_size / 2 if 'switch' in cell_type else self.cell_size,
           self.cell_size / 2 if 'switch' in cell_type else self.cell_size,
-        ), 1 if cell_type == 'empty' else 5 if cell_type == 'fader_out' else 0
+        ), 1 if cell_type == 'empty' else 5 if cell_type == 'fader_out' or cell_type == 'key' else 0
       )
 
   def export_xml(self, file_name):
@@ -101,8 +102,12 @@ class LevelCanvas:
       
       for block_type in blocks:
         for block_pos in blocks[block_type]:
-          if block_pos == cell_pos:
+          print(block_type)
+          if block_pos[0] == cell_pos[0] and block_pos[1] == cell_pos[1]:
             self.level_cells[cell_index] = LevelCell(block_pos[0], block_pos[1], block_type)
+            
+            if block_type == 'lock' or block_type == 'key':
+              self.level_cells[cell_index].set_id(block_pos[2])
 
   def init_level_cells(self):
     existing_coordinates = self.get_existing_coordinates()
@@ -145,8 +150,8 @@ class LevelCanvas:
         'x_pos': self.screen_size[0] - 230,
         'y_pos': 320
       },
-      'bouncer': {
-        'color': self.get_cell_color('bouncer'),
+      'physics_block': {
+        'color': self.get_cell_color('physics_block'),
         'x_pos': self.screen_size[0] - 230,
         'y_pos': 350
       },
@@ -185,6 +190,11 @@ class LevelCanvas:
         'x_pos': self.screen_size[0] - 230,
         'y_pos': 560
       },
+      'key': {
+        'color': self.get_cell_color('key'),
+        'x_pos': self.screen_size[0] - 230,
+        'y_pos': 590
+      }
     }
 
     return cell_type_display
@@ -227,7 +237,7 @@ class LevelCanvas:
     elif key == pygame.K_5:
       self.selected_cell_type = 'fader_out'  
     elif key == pygame.K_6:
-      self.selected_cell_type = 'bouncer'
+      self.selected_cell_type = 'physics_block'
     elif key == pygame.K_7:
       self.selected_cell_type = 'lock'
     elif key == pygame.K_8:
@@ -241,7 +251,9 @@ class LevelCanvas:
     elif key == pygame.K_F3:
       self.selected_cell_type = 'flipper_u'     
     elif key == pygame.K_F4:
-      self.selected_cell_type = 'flipper_d'     
+      self.selected_cell_type = 'flipper_d'   
+    elif key == pygame.K_F5:
+      self.selected_cell_type = 'key'  
 
     if key == pygame.K_LEFT or key == pygame.K_a:
       self.scroll_x_direction = 1
@@ -274,6 +286,12 @@ class LevelCanvas:
           self.player_placed = True
         elif self.selected_cell_type == 'goal':
           self.goal_placed = True
+        elif self.selected_cell_type == 'lock'  :
+          self.max_lock_id += 1
+          self.level_cells[index].set_id(self.max_lock_id)
+        elif self.selected_cell_type == 'key':
+          if self.max_lock_id > 0:
+            self.level_cells[index].set_id(self.max_lock_id)
 
   def handle_right_click(self, mouse_pos):
     index = self.get_clicked_cell_index(mouse_pos)
@@ -358,11 +376,11 @@ class LevelCanvas:
       return 200, 214, 230
     elif cell_type == 'fader_out':
       return 200, 214, 230  
-    elif cell_type == 'bouncer':
+    elif cell_type == 'physics_block':
       return 171, 41, 65
     elif 'flipper' in cell_type:
       return 7, 196, 230
-    elif cell_type == 'lock':
+    elif cell_type == 'lock' or cell_type == 'key':
       return 51, 62, 64
     elif cell_type == 'fader_switch':
       return 100, 100, 0          

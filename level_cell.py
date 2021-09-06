@@ -13,10 +13,16 @@ class LevelCell:
   def set_cell_type(self, new_type):
     self.cell_type = new_type
 
+  def set_id(self, id):
+    self.lock_id = id
+
   def get_coordinates(self):
     return self.x, self.y
 
   def get_cell_type(self):
     return self.cell_type
+
+  def get_id(self):
+    return self.lock_id
 
 

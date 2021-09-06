@@ -50,8 +50,9 @@ class XmlManager:
       'fader_in': tree_root.findall('fader_in_pos'),
       'fader_out': tree_root.findall('fader_out_pos'),
       'fader_switch': tree_root.findall('fader_switch_pos'),
-      'bouncer': tree_root.findall('bouncer_pos'),
+      'physics_block': tree_root.findall('physics_block_pos'),
       'lock': tree_root.findall('lock_pos'),
+      'key': tree_root.findall('key_pos'),
       'flipper_r': tree_root.findall('flipper_r_pos'),
       'flipper_l': tree_root.findall('flipper_l_pos'),
       'flipper_u': tree_root.findall('flipper_u_pos'),
@@ -63,9 +64,14 @@ class XmlManager:
     for key in blocks:
       level_data['blocks'][key] = []
       for block in blocks[key]:
-        level_data['blocks'][key].append(
-          self.get_xml_obj_pos(block)
-        )
+        if key == 'lock' or key == 'key':
+          level_data['blocks'][key].append(
+            self.get_xml_obj_pos_with_id(block)
+          )
+        else:  
+          level_data['blocks'][key].append(
+            self.get_xml_obj_pos(block)
+          )
   
     return level_data
     
@@ -76,14 +82,17 @@ class XmlManager:
     obstacle_pos = []
     fader_in_pos = []
     fader_out_pos = []
-    bouncer_pos = []
+    physics_block_pos = []
     flipper_l_pos = []
     flipper_r_pos = []
     flipper_u_pos = []
     flipper_d_pos = []
     lock_pos = []
+    lock_ids = []
     fader_switch = []
     flipper_switch = []
+    key_pos = []
+    key_ids = []
 
     for cell in level_cells:
       cell_type = cell.get_cell_type()
@@ -97,8 +106,8 @@ class XmlManager:
         fader_in_pos.append(cell.get_coordinates())  
       elif cell_type == 'fader_out':
         fader_out_pos.append(cell.get_coordinates())    
-      elif cell_type == 'bouncer':
-        bouncer_pos.append(cell.get_coordinates())    
+      elif cell_type == 'physics_block':
+        physics_block_pos.append(cell.get_coordinates())    
       elif cell_type == 'flipper_r':
         flipper_r_pos.append(cell.get_coordinates())    
       elif cell_type == 'flipper_l':
@@ -109,10 +118,15 @@ class XmlManager:
         flipper_d_pos.append(cell.get_coordinates())    
       elif cell_type == 'lock':
         lock_pos.append(cell.get_coordinates())    
+        lock_ids.append(cell.get_id())
       elif cell_type == 'fader_switch':
         fader_switch.append(cell.get_coordinates())  
       elif cell_type == 'flipper_switch':
         flipper_switch.append(cell.get_coordinates())    
+      elif cell_type == 'key':
+        key_pos.append(cell.get_coordinates())
+        key_ids.append(cell.get_id())
+
 
     xml_str = '<?xml version="1.0" encoding="UTF-8"?>\n<level>\n'
     xml_str += '\t<max_moves>' + str(max_moves) + '</max_moves>\n'
@@ -144,13 +158,17 @@ class XmlManager:
       xml_str += '\t<fader_switch_pos>\n\t\t<x> ' + str(i[0]) + ' </x>\n'
       xml_str += '\t\t<y> ' + str(i[1]) + ' </y>\n\t</fader_switch_pos>\n'    
 
-    for i in bouncer_pos:  
-      xml_str += '\t<bouncer_pos>\n\t\t<x> ' + str(i[0]) + ' </x>\n'
-      xml_str += '\t\t<y> ' + str(i[1]) + ' </y>\n\t</bouncer_pos>\n'  
+    for i in physics_block_pos:  
+      xml_str += '\t<physics_block_pos>\n\t\t<x> ' + str(i[0]) + ' </x>\n'
+      xml_str += '\t\t<y> ' + str(i[1]) + ' </y>\n\t</physics_block_pos>\n'  
 
-    for i in lock_pos:  
-      xml_str += '\t<lock_pos>\n\t\t<x> ' + str(i[0]) + ' </x>\n'
-      xml_str += '\t\t<y> ' + str(i[1]) + ' </y>\n\t</lock_pos>\n'      
+    for pos, id in zip(lock_pos, lock_ids):  
+      xml_str += '\t<lock_pos>\n\t\t<id> ' + str(id) + ' </id>\n\t\t<x> ' + str(pos[0]) + ' </x>\n'
+      xml_str += '\t\t<y> ' + str(pos[1]) + ' </y>\n\t</lock_pos>\n'    
+
+    for pos, id in zip(key_pos, key_ids):    
+      xml_str += '\t<key_pos>\n\t\t<id> ' + str(id) + ' </id>\n\t\t<x> ' + str(pos[0]) + ' </x>\n'
+      xml_str += '\t\t<y> ' + str(pos[1]) + ' </y>\n\t</key_pos>\n'    
 
     for i in flipper_l_pos:  
       xml_str += '\t<flipper_l_pos>\n\t\t<x> ' + str(i[0]) + ' </x>\n'
@@ -189,4 +207,11 @@ class XmlManager:
     return (
       int(obj.find('x').text), 
       int(obj.find('y').text)
-    )    
+    )  
+
+  def get_xml_obj_pos_with_id(self, obj):
+    return (
+      int(obj.find('x').text), 
+      int(obj.find('y').text),
+      int(obj.find('id').text),
+    )

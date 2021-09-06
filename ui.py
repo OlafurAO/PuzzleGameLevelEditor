@@ -150,7 +150,7 @@ class UI:
       'goal': self.font.render('(3) Goal', False, (255, 255, 255)),
       'fader_in': self.font.render('(4) Fader-i', False, (255, 255, 255)),
       'fader_out': self.font.render('(5) Fader-o', False, (255, 255, 255)),
-      'bouncer': self.font.render('(6) Bouncer', False, (255, 255, 255)),
+      'physics_block': self.font.render('(6) Phys-Blok', False, (255, 255, 255)),
       'lock': self.font.render('(7) Lock', False, (255, 255, 255)),
       'fader_switch': self.font.render('(8) Fa-switch', False, (255, 255, 255)),
       'flipper_switch': self.font.render('(9) Fl-switch', False, (255, 255, 255)),
@@ -158,4 +158,5 @@ class UI:
       'flipper_r': self.font.render('(F2) Flipper-r', False, (255, 255, 255)),
       'flipper_u': self.font.render('(F3) Flipper-u', False, (255, 255, 255)),
       'flipper_d': self.font.render('(F4) Flipper-d', False, (255, 255, 255)),
+      'key': self.font.render('(F5) Key', False, (255, 255, 255)),
     } 
