@@ -102,7 +102,6 @@ class LevelCanvas:
       
       for block_type in blocks:
         for block_pos in blocks[block_type]:
-          print(block_type)
           if block_pos[0] == cell_pos[0] and block_pos[1] == cell_pos[1]:
             self.level_cells[cell_index] = LevelCell(block_pos[0], block_pos[1], block_type)
             
@@ -194,6 +193,21 @@ class LevelCanvas:
         'color': self.get_cell_color('key'),
         'x_pos': self.screen_size[0] - 230,
         'y_pos': 590
+      },
+      'speeder': {
+        'color': self.get_cell_color('speeder'),
+        'x_pos': self.screen_size[0] - 230,
+        'y_pos': 620
+      },
+      'breakable': {
+        'color': self.get_cell_color('breakable'),
+        'x_pos': self.screen_size[0] - 230,
+        'y_pos': 650
+      },
+      'bomb': {
+        'color': self.get_cell_color('bomb'),
+        'x_pos': self.screen_size[0] - 230,
+        'y_pos': 680
       }
     }
 
@@ -254,6 +268,12 @@ class LevelCanvas:
       self.selected_cell_type = 'flipper_d'   
     elif key == pygame.K_F5:
       self.selected_cell_type = 'key'  
+    elif key == pygame.K_F6:
+      self.selected_cell_type = 'speeder'
+    elif key == pygame.K_F7:
+      self.selected_cell_type = 'breakable'  
+    elif key == pygame.K_F8:
+      self.selected_cell_type = 'bomb'  
 
     if key == pygame.K_LEFT or key == pygame.K_a:
       self.scroll_x_direction = 1
@@ -386,5 +406,11 @@ class LevelCanvas:
       return 100, 100, 0          
     elif cell_type == 'block' or cell_type == 'empty':
       return 255, 255, 255
+    elif cell_type == 'speeder':
+      return 255, 165, 82
+    elif cell_type == 'breakable':
+      return 82, 91, 118
+    elif cell_type == 'bomb':
+      return 44, 44, 52
 
     return None

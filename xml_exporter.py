@@ -57,7 +57,10 @@ class XmlManager:
       'flipper_l': tree_root.findall('flipper_l_pos'),
       'flipper_u': tree_root.findall('flipper_u_pos'),
       'flipper_d': tree_root.findall('flipper_d_pos'),
-      'flipper_switch': tree_root.findall('flipper_switch_pos')
+      'flipper_switch': tree_root.findall('flipper_switch_pos'),
+      'speeder': tree_root.findall('speeder_pos'),
+      'breakable': tree_root.findall('breakable_pos'),
+      'bomb': tree_root.findall('bomb_pos'),
     }
 
     level_data['blocks'] = {}
@@ -93,6 +96,9 @@ class XmlManager:
     flipper_switch = []
     key_pos = []
     key_ids = []
+    speeder_pos = []
+    breakable_pos = []
+    bomb_pos = []
 
     for cell in level_cells:
       cell_type = cell.get_cell_type()
@@ -126,6 +132,12 @@ class XmlManager:
       elif cell_type == 'key':
         key_pos.append(cell.get_coordinates())
         key_ids.append(cell.get_id())
+      elif cell_type == 'speeder':
+        speeder_pos.append(cell.get_coordinates())
+      elif cell_type == 'breakable':
+        breakable_pos.append(cell.get_coordinates())
+      elif cell_type == 'bomb':
+        bomb_pos.append(cell.get_coordinates())
 
 
     xml_str = '<?xml version="1.0" encoding="UTF-8"?>\n<level>\n'
@@ -188,7 +200,19 @@ class XmlManager:
 
     for i in flipper_switch:  
       xml_str += '\t<flipper_switch_pos>\n\t\t<x> ' + str(i[0]) + ' </x>\n'
-      xml_str += '\t\t<y> ' + str(i[1]) + ' </y>\n\t</flipper_switch_pos>\n'      
+      xml_str += '\t\t<y> ' + str(i[1]) + ' </y>\n\t</flipper_switch_pos>\n'
+
+    for i in speeder_pos:  
+      xml_str += '\t<speeder_pos>\n\t\t<x> ' + str(i[0]) + ' </x>\n'
+      xml_str += '\t\t<y> ' + str(i[1]) + ' </y>\n\t</speeder_pos>\n'
+
+    for i in breakable_pos:  
+      xml_str += '\t<breakable_pos>\n\t\t<x> ' + str(i[0]) + ' </x>\n'
+      xml_str += '\t\t<y> ' + str(i[1]) + ' </y>\n\t</breakable_pos>\n' 
+
+    for i in bomb_pos:  
+      xml_str += '\t<bomb_pos>\n\t\t<x> ' + str(i[0]) + ' </x>\n'
+      xml_str += '\t\t<y> ' + str(i[1]) + ' </y>\n\t</bomb_pos>\n' 
 
 
     # TODO: more blocks

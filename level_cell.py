@@ -24,5 +24,3 @@ class LevelCell:
 
   def get_id(self):
     return self.lock_id
-
-

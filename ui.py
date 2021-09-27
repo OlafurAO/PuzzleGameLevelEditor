@@ -159,4 +159,7 @@ class UI:
       'flipper_u': self.font.render('(F3) Flipper-u', False, (255, 255, 255)),
       'flipper_d': self.font.render('(F4) Flipper-d', False, (255, 255, 255)),
       'key': self.font.render('(F5) Key', False, (255, 255, 255)),
+      'speeder': self.font.render('(F6) Speeder', False, (255, 255, 255)),
+      'breakable': self.font.render('(F7) Breakable', False, (255, 255, 255)),
+      'bomb': self.font.render('(F8) Bomb', False, (255, 255, 255)),
     } 
