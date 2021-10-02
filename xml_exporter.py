@@ -58,7 +58,10 @@ class XmlManager:
       'flipper_u': tree_root.findall('flipper_u_pos'),
       'flipper_d': tree_root.findall('flipper_d_pos'),
       'flipper_switch': tree_root.findall('flipper_switch_pos'),
-      'speeder': tree_root.findall('speeder_pos'),
+      'speeder_l': tree_root.findall('speeder_l_pos'),
+      'speeder_r': tree_root.findall('speeder_r_pos'),
+      'speeder_u': tree_root.findall('speeder_u_pos'),
+      'speeder_d': tree_root.findall('speeder_d_pos'),
       'breakable': tree_root.findall('breakable_pos'),
       'bomb': tree_root.findall('bomb_pos'),
     }
@@ -96,7 +99,10 @@ class XmlManager:
     flipper_switch = []
     key_pos = []
     key_ids = []
-    speeder_pos = []
+    speeder_l_pos = []
+    speeder_r_pos = []
+    speeder_u_pos = []
+    speeder_d_pos = []
     breakable_pos = []
     bomb_pos = []
 
@@ -132,8 +138,14 @@ class XmlManager:
       elif cell_type == 'key':
         key_pos.append(cell.get_coordinates())
         key_ids.append(cell.get_id())
-      elif cell_type == 'speeder':
-        speeder_pos.append(cell.get_coordinates())
+      elif cell_type == 'speeder_l':
+        speeder_l_pos.append(cell.get_coordinates())
+      elif cell_type == 'speeder_r':
+        speeder_r_pos.append(cell.get_coordinates())
+      elif cell_type == 'speeder_u':
+        speeder_u_pos.append(cell.get_coordinates())
+      elif cell_type == 'speeder_d':
+        speeder_d_pos.append(cell.get_coordinates())
       elif cell_type == 'breakable':
         breakable_pos.append(cell.get_coordinates())
       elif cell_type == 'bomb':
@@ -202,9 +214,21 @@ class XmlManager:
       xml_str += '\t<flipper_switch_pos>\n\t\t<x> ' + str(i[0]) + ' </x>\n'
       xml_str += '\t\t<y> ' + str(i[1]) + ' </y>\n\t</flipper_switch_pos>\n'
 
-    for i in speeder_pos:  
-      xml_str += '\t<speeder_pos>\n\t\t<x> ' + str(i[0]) + ' </x>\n'
-      xml_str += '\t\t<y> ' + str(i[1]) + ' </y>\n\t</speeder_pos>\n'
+    for i in speeder_l_pos:  
+      xml_str += '\t<speeder_l_pos>\n\t\t<x> ' + str(i[0]) + ' </x>\n'
+      xml_str += '\t\t<y> ' + str(i[1]) + ' </y>\n\t</speeder_l_pos>\n'
+
+    for i in speeder_r_pos:  
+      xml_str += '\t<speeder_r_pos>\n\t\t<x> ' + str(i[0]) + ' </x>\n'
+      xml_str += '\t\t<y> ' + str(i[1]) + ' </y>\n\t</speeder_r_pos>\n'
+
+    for i in speeder_u_pos:  
+      xml_str += '\t<speeder_u_pos>\n\t\t<x> ' + str(i[0]) + ' </x>\n'
+      xml_str += '\t\t<y> ' + str(i[1]) + ' </y>\n\t</speeder_u_pos>\n'
+
+    for i in speeder_d_pos:  
+      xml_str += '\t<speeder_d_pos>\n\t\t<x> ' + str(i[0]) + ' </x>\n'
+      xml_str += '\t\t<y> ' + str(i[1]) + ' </y>\n\t</speeder_d_pos>\n'
 
     for i in breakable_pos:  
       xml_str += '\t<breakable_pos>\n\t\t<x> ' + str(i[0]) + ' </x>\n'

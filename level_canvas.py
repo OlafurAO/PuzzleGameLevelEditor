@@ -194,20 +194,35 @@ class LevelCanvas:
         'x_pos': self.screen_size[0] - 230,
         'y_pos': 590
       },
-      'speeder': {
+      'speeder_l': {
         'color': self.get_cell_color('speeder'),
         'x_pos': self.screen_size[0] - 230,
         'y_pos': 620
       },
+      'speeder_r': {
+        'color': self.get_cell_color('speeder'),
+        'x_pos': self.screen_size[0] - 230,
+        'y_pos': 650
+      },
+      'speeder_u': {
+        'color': self.get_cell_color('speeder'),
+        'x_pos': self.screen_size[0] - 230,
+        'y_pos': 680
+      },
+      'speeder_d': {
+        'color': self.get_cell_color('speeder'),
+        'x_pos': self.screen_size[0] - 230,
+        'y_pos': 710
+      },
       'breakable': {
         'color': self.get_cell_color('breakable'),
         'x_pos': self.screen_size[0] - 230,
-        'y_pos': 650
+        'y_pos': 740
       },
       'bomb': {
         'color': self.get_cell_color('bomb'),
         'x_pos': self.screen_size[0] - 230,
-        'y_pos': 680
+        'y_pos': 770
       }
     }
 
@@ -269,10 +284,16 @@ class LevelCanvas:
     elif key == pygame.K_F5:
       self.selected_cell_type = 'key'  
     elif key == pygame.K_F6:
-      self.selected_cell_type = 'speeder'
+      self.selected_cell_type = 'speeder_l'
     elif key == pygame.K_F7:
-      self.selected_cell_type = 'breakable'  
+      self.selected_cell_type = 'speeder_r'
     elif key == pygame.K_F8:
+      self.selected_cell_type = 'speeder_u'
+    elif key == pygame.K_F9:
+      self.selected_cell_type = 'speeder_d'
+    elif key == pygame.K_F10:
+      self.selected_cell_type = 'breakable'  
+    elif key == pygame.K_F11:
       self.selected_cell_type = 'bomb'  
 
     if key == pygame.K_LEFT or key == pygame.K_a:
@@ -406,7 +427,7 @@ class LevelCanvas:
       return 100, 100, 0          
     elif cell_type == 'block' or cell_type == 'empty':
       return 255, 255, 255
-    elif cell_type == 'speeder':
+    elif 'speeder' in cell_type:
       return 255, 165, 82
     elif cell_type == 'breakable':
       return 82, 91, 118
