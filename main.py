@@ -5,7 +5,7 @@ from ui import UI
 
 pygame.init()
 
-screen_size = (1400, 800)
+screen_size = (1400, 1000)
 game_display = pygame.display.set_mode(screen_size)
 level_size = [480, 480]
 

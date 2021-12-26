@@ -84,7 +84,7 @@ class UI:
           self.cell_type_display_info[cell_type]['x_pos'],
           self.cell_type_display_info[cell_type]['y_pos'],    
           25, 25,
-        ), 2 if cell_type == 'fader_out' else 0
+        ), 2 if cell_type == 'fader_out' or cell_type == 'button' else 0
       )
 
       game_display.blit(
@@ -165,4 +165,5 @@ class UI:
       'speeder_d': self.font.render('(F9) Speeder-d', False, (255, 255, 255)),
       'breakable': self.font.render('(F10) Breakable', False, (255, 255, 255)),
       'bomb': self.font.render('(F11) Bomb', False, (255, 255, 255)),
+      'button': self.font.render('(F12) Button', False, (255, 255, 255)),
     } 

@@ -64,13 +64,14 @@ class XmlManager:
       'speeder_d': tree_root.findall('speeder_d_pos'),
       'breakable': tree_root.findall('breakable_pos'),
       'bomb': tree_root.findall('bomb_pos'),
+      'button': tree_root.findall('button_pos'),
     }
 
     level_data['blocks'] = {}
     for key in blocks:
       level_data['blocks'][key] = []
       for block in blocks[key]:
-        if key == 'lock' or key == 'key':
+        if key == 'lock' or key == 'key' or key == 'button':
           level_data['blocks'][key].append(
             self.get_xml_obj_pos_with_id(block)
           )
@@ -105,6 +106,8 @@ class XmlManager:
     speeder_d_pos = []
     breakable_pos = []
     bomb_pos = []
+    button_pos = []
+    button_ids = []
 
     for cell in level_cells:
       cell_type = cell.get_cell_type()
@@ -150,6 +153,9 @@ class XmlManager:
         breakable_pos.append(cell.get_coordinates())
       elif cell_type == 'bomb':
         bomb_pos.append(cell.get_coordinates())
+      elif cell_type == 'button':
+        button_pos.append(cell.get_coordinates())
+        button_ids.append(cell.get_id())
 
 
     xml_str = '<?xml version="1.0" encoding="UTF-8"?>\n<level>\n'
@@ -237,6 +243,10 @@ class XmlManager:
     for i in bomb_pos:  
       xml_str += '\t<bomb_pos>\n\t\t<x> ' + str(i[0]) + ' </x>\n'
       xml_str += '\t\t<y> ' + str(i[1]) + ' </y>\n\t</bomb_pos>\n' 
+
+    for pos, id in zip(button_pos, button_ids):    
+      xml_str += '\t<button_pos>\n\t\t<id> ' + str(id) + ' </id>\n\t\t<x> ' + str(pos[0]) + ' </x>\n'
+      xml_str += '\t\t<y> ' + str(pos[1]) + ' </y>\n\t</button_pos>\n'  
 
 
     # TODO: more blocks

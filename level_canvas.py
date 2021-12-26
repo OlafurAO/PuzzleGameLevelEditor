@@ -41,10 +41,10 @@ class LevelCanvas:
 
       pygame.draw.rect(
         game_display, color, pygame.Rect(
-          coordinates[0] + self.cell_size / 4 if 'switch' in cell_type else coordinates[0],
-          coordinates[1] + self.cell_size / 4 if 'switch' in cell_type else coordinates[1],
-          self.cell_size / 2 if 'switch' in cell_type else self.cell_size,
-          self.cell_size / 2 if 'switch' in cell_type else self.cell_size,
+          coordinates[0] + self.cell_size / 4 if 'switch' in cell_type or 'button' in cell_type else coordinates[0],
+          coordinates[1] + self.cell_size / 4 if 'switch' in cell_type or 'button' in cell_type else coordinates[1],
+          self.cell_size / 2 if 'switch' in cell_type or 'button' in cell_type else self.cell_size,
+          self.cell_size / 2 if 'switch' in cell_type or 'button' in cell_type else self.cell_size,
         ), 1 if cell_type == 'empty' else 5 if cell_type == 'fader_out' or cell_type == 'key' else 0
       )
 
@@ -105,7 +105,7 @@ class LevelCanvas:
           if block_pos[0] == cell_pos[0] and block_pos[1] == cell_pos[1]:
             self.level_cells[cell_index] = LevelCell(block_pos[0], block_pos[1], block_type)
             
-            if block_type == 'lock' or block_type == 'key':
+            if block_type == 'lock' or block_type == 'key' or block_type == 'button':
               self.level_cells[cell_index].set_id(block_pos[2])
 
   def init_level_cells(self):
@@ -127,100 +127,105 @@ class LevelCanvas:
       'block': {
         'color': self.get_cell_color('block'),
         'x_pos': self.screen_size[0] - 230,
-        'y_pos': 200
+        'y_pos': 170
       },
       'player': {
         'color': self.get_cell_color('player'),
         'x_pos': self.screen_size[0] - 230,
-        'y_pos': 230
+        'y_pos': 200
       },
       'goal': {
         'color': self.get_cell_color('goal'),
         'x_pos': self.screen_size[0] - 230,
-        'y_pos': 260
+        'y_pos': 230
       },
       'fader_in': {
         'color': self.get_cell_color('fader_in'),
         'x_pos': self.screen_size[0] - 230,
-        'y_pos': 290
+        'y_pos': 260
       },
       'fader_out': {
         'color': self.get_cell_color('fader_out'),
         'x_pos': self.screen_size[0] - 230,
-        'y_pos': 320
+        'y_pos': 290
       },
       'physics_block': {
         'color': self.get_cell_color('physics_block'),
         'x_pos': self.screen_size[0] - 230,
-        'y_pos': 350
+        'y_pos': 320
       },
       'lock': {
         'color': self.get_cell_color('lock'),
         'x_pos': self.screen_size[0] - 230,
-        'y_pos': 380
+        'y_pos': 350
       }, 
       'fader_switch': {
         'color': self.get_cell_color('fader_switch'),
         'x_pos': self.screen_size[0] - 230,
-        'y_pos': 410
+        'y_pos': 380
       },
       'flipper_switch': {
         'color': self.get_cell_color('flipper_switch'),
         'x_pos': self.screen_size[0] - 230,
-        'y_pos': 440
+        'y_pos': 410
       },
       'flipper_l': {
         'color': self.get_cell_color('flipper'),
         'x_pos': self.screen_size[0] - 230,
-        'y_pos': 470
+        'y_pos': 440
       },
       'flipper_r': {
         'color': self.get_cell_color('flipper'),
         'x_pos': self.screen_size[0] - 230,
-        'y_pos': 500
+        'y_pos': 470
       },
       'flipper_u': {
         'color': self.get_cell_color('flipper'),
         'x_pos': self.screen_size[0] - 230,
-        'y_pos': 530
+        'y_pos': 500
       },
       'flipper_d': {
         'color': self.get_cell_color('flipper'),
         'x_pos': self.screen_size[0] - 230,
-        'y_pos': 560
+        'y_pos': 530
       },
       'key': {
         'color': self.get_cell_color('key'),
         'x_pos': self.screen_size[0] - 230,
-        'y_pos': 590
+        'y_pos': 560
       },
       'speeder_l': {
         'color': self.get_cell_color('speeder'),
         'x_pos': self.screen_size[0] - 230,
-        'y_pos': 620
+        'y_pos': 590
       },
       'speeder_r': {
         'color': self.get_cell_color('speeder'),
         'x_pos': self.screen_size[0] - 230,
-        'y_pos': 650
+        'y_pos': 620
       },
       'speeder_u': {
         'color': self.get_cell_color('speeder'),
         'x_pos': self.screen_size[0] - 230,
-        'y_pos': 680
+        'y_pos': 650
       },
       'speeder_d': {
         'color': self.get_cell_color('speeder'),
         'x_pos': self.screen_size[0] - 230,
-        'y_pos': 710
+        'y_pos': 680
       },
       'breakable': {
         'color': self.get_cell_color('breakable'),
         'x_pos': self.screen_size[0] - 230,
-        'y_pos': 740
+        'y_pos': 710
       },
       'bomb': {
         'color': self.get_cell_color('bomb'),
+        'x_pos': self.screen_size[0] - 230,
+        'y_pos': 740
+      },
+      'button': {
+        'color': self.get_cell_color('button'),
         'x_pos': self.screen_size[0] - 230,
         'y_pos': 770
       }
@@ -294,7 +299,9 @@ class LevelCanvas:
     elif key == pygame.K_F10:
       self.selected_cell_type = 'breakable'  
     elif key == pygame.K_F11:
-      self.selected_cell_type = 'bomb'  
+      self.selected_cell_type = 'bomb'
+    elif key == pygame.K_F12:
+      self.selected_cell_type = 'button'
 
     if key == pygame.K_LEFT or key == pygame.K_a:
       self.scroll_x_direction = 1
@@ -330,7 +337,7 @@ class LevelCanvas:
         elif self.selected_cell_type == 'lock'  :
           self.max_lock_id += 1
           self.level_cells[index].set_id(self.max_lock_id)
-        elif self.selected_cell_type == 'key':
+        elif self.selected_cell_type == 'key' or self.selected_cell_type == 'button':
           if self.max_lock_id > 0:
             self.level_cells[index].set_id(self.max_lock_id)
 
@@ -421,7 +428,7 @@ class LevelCanvas:
       return 171, 41, 65
     elif 'flipper' in cell_type:
       return 7, 196, 230
-    elif cell_type == 'lock' or cell_type == 'key':
+    elif cell_type == 'lock' or cell_type == 'key' or cell_type == 'button':
       return 51, 62, 64
     elif cell_type == 'fader_switch':
       return 100, 100, 0          
